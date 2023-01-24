@@ -37,8 +37,9 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o app 
 
 
 FROM scratch as release
-WORKDIR /app
-RUN mkdir ./static
+WORKDIR /app   
+# scratch can not mkdir
+# RUN mkdir ./static
 COPY ./static ./static
 COPY --from=build /go/src/boilerplate/app .
 EXPOSE 8080
