@@ -1,7 +1,6 @@
 package main
 
 import (
-	"boilerplate/database"
 	"boilerplate/handlers"
 
 	"flag"
@@ -22,7 +21,7 @@ func main() {
 	flag.Parse()
 
 	// Connected with database
-	database.Connect()
+	// database.Connect()
 
 	// Create fiber app
 	app := fiber.New(fiber.Config{
