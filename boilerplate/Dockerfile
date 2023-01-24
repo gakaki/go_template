@@ -14,24 +14,33 @@ RUN go mod download
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o app .
 
 
-# Moving the binary to the 'final Image' to make it smaller
-FROM alpine:latest as release
+# # Moving the binary to the 'final Image' to make it smaller
+# FROM alpine:latest as release
 
+# WORKDIR /app
+
+# # Create the `public` dir and copy all the assets into it
+# RUN mkdir ./static
+# COPY ./static ./static
+
+# # `boilerplate` should be replaced here as well
+# COPY --from=build /go/src/boilerplate/app .
+
+# # Add packages
+# RUN apk -U upgrade \
+#     && apk add --no-cache dumb-init ca-certificates \
+#     && chmod +x /app/app
+
+# # Exposes port 3000 because our program listens on that port
+# EXPOSE 8080
+# ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+
+
+FROM scratch as release
 WORKDIR /app
-
-# Create the `public` dir and copy all the assets into it
 RUN mkdir ./static
 COPY ./static ./static
-
-# `boilerplate` should be replaced here as well
 COPY --from=build /go/src/boilerplate/app .
-
-# Add packages
-RUN apk -U upgrade \
-    && apk add --no-cache dumb-init ca-certificates \
-    && chmod +x /app/app
-
-# Exposes port 3000 because our program listens on that port
 EXPOSE 8080
-
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+ENV PROD=1
+ENTRYPOINT ["/app/app"]
