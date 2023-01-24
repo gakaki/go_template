@@ -32,6 +32,6 @@ RUN apk -U upgrade \
     && chmod +x /app/app
 
 # Exposes port 3000 because our program listens on that port
-EXPOSE 3000
+EXPOSE 8080
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]

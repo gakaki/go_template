@@ -1,5 +1,5 @@
 # on: [push]
-# name: test-docker
+name: build-docker-image
 
 on:
   push:
